@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+<!--    Background colors for the frames  -->
+    <color name="color_frame1">#FFFFCC</color>
+    <color name="color_frame2">#CCFFCC</color>
+    <color name="color_frame3">#CCFFFF</color>
+    <color name="color_frame4">#FFCCCC</color>
 </resources>
