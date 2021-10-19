@@ -30,16 +30,21 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
             Fragment[] fragments = new Fragment[]{new Fragment1(), new Fragment2(), new Fragment3(),
                     new Fragment4()};
             FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            FragmentTransaction transaction = fragmentManager.beginTransaction().
+                    setCustomAnimations(
+                            R.anim.slide_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.slide_out
+                    );
 
-            for (int i = 0; i < 4; i ++) {
+            for (int i = 0; i < 4; i++) {
                 transaction.add(frames[i], fragments[i]);
             }
 
             transaction.addToBackStack(null);
             transaction.commit();
-        }
-        else {
+        } else {
             frames = savedInstanceState.getIntArray("FRAMES");
             hidden = savedInstanceState.getBoolean("HIDDEN");
         }
@@ -87,7 +92,13 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
             if (fragment instanceof Fragment1)
                 continue;
 
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            FragmentTransaction transaction = fragmentManager.beginTransaction().
+                    setCustomAnimations(
+                            R.anim.slide_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.slide_out
+                    );
             transaction.hide(fragment);
 
             transaction.addToBackStack(null);
@@ -103,8 +114,13 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
             return;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        
+        FragmentTransaction transaction = fragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+        );
+
         for (Fragment fragment : fragmentManager.getFragments()) {
             if (fragment instanceof Fragment1)
                 continue;
@@ -122,7 +138,7 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
 
-        if (fragment instanceof  Fragment1) {
+        if (fragment instanceof Fragment1) {
             ((Fragment1) fragment).setOnButtonClickListener(this);
         }
     }
@@ -131,9 +147,14 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
         Fragment[] newFragments = new Fragment[]{new Fragment1(), new Fragment2(), new Fragment3(),
                 new Fragment4()};
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction().setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+        );
 
-        for (int i = 0; i < 4; i ++) {
+        for (int i = 0; i < 4; i++) {
             transaction.replace(frames[i], newFragments[i]);
 
             if (hidden && !(newFragments[i] instanceof Fragment1))
