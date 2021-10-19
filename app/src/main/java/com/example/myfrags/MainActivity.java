@@ -61,12 +61,45 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
     @Override
     public void onButtonClickHide() {
-        Toast.makeText(getApplicationContext(), "Hide", Toast.LENGTH_SHORT).show();
+        if (hidden)
+            return;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment instanceof Fragment1)
+                continue;
+
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.hide(fragment);
+
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
+        hidden = true;
     }
 
     @Override
     public void onButtonClickRestore() {
-        Toast.makeText(getApplicationContext(), "Restore", Toast.LENGTH_SHORT).show();
+        if (!hidden)
+            return;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            if (fragment instanceof Fragment1)
+                continue;
+
+            transaction.show(fragment);
+        }
+
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+        hidden = false;
     }
 
     @Override
