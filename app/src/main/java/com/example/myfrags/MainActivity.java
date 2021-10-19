@@ -9,6 +9,12 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class MainActivity extends FragmentActivity implements Fragment1.OnButtonClickListener {
 
     private int[] frames;
@@ -51,12 +57,24 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
     @Override
     public void onButtonClickShuffle() {
-        Toast.makeText(getApplicationContext(), "Shuffle", Toast.LENGTH_SHORT).show();
+        List<Integer> list = new ArrayList<>(Arrays.asList(frames[0], frames[1], frames[2], frames[3]));
+        Collections.shuffle(list);
+
+        for (int i = 0; i < 4; i++)
+            frames[i] = list.get(i);
+
+        newFragments();
     }
 
     @Override
     public void onButtonClickClockwise() {
-        Toast.makeText(getApplicationContext(), "Clockwise", Toast.LENGTH_SHORT).show();
+        int t = frames[0];
+        frames[0] = frames[1];
+        frames[1] = frames[2];
+        frames[2] = frames[3];
+        frames[3] = t;
+
+        newFragments();
     }
 
     @Override
@@ -109,5 +127,22 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
         if (fragment instanceof  Fragment1) {
             ((Fragment1) fragment).setOnButtonClickListener(this);
         }
+    }
+
+    private void newFragments() {
+        Fragment[] newFragments = new Fragment[]{new Fragment1(), new Fragment2(), new Fragment3(),
+                new Fragment4()};
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        for (int i = 0; i < 4; i ++) {
+            transaction.replace(frames[i], newFragments[i]);
+
+            if (hidden && !(newFragments[i] instanceof Fragment1))
+                transaction.hide(newFragments[i]);
+        }
+
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
