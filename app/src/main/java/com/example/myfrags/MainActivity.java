@@ -7,11 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,7 +55,8 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
     @Override
     public void onButtonClickShuffle() {
-        List<Integer> list = new ArrayList<>(Arrays.asList(frames[0], frames[1], frames[2], frames[3]));
+        List<Integer> list = new ArrayList<>(Arrays
+                .asList(frames[0], frames[1], frames[2], frames[3]));
         Collections.shuffle(list);
 
         for (int i = 0; i < 4; i++)
@@ -105,8 +104,7 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-
+        
         for (Fragment fragment : fragmentManager.getFragments()) {
             if (fragment instanceof Fragment1)
                 continue;
