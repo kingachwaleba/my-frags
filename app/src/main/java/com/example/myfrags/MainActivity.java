@@ -17,6 +17,7 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
     private int[] frames;
     private boolean hidden;
+    private int[] sequence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
         if (savedInstanceState == null) {
             frames = new int[]{R.id.frame1, R.id.frame2, R.id.frame3, R.id.frame4};
             hidden = false;
+            sequence = new int[]{0, 1, 2, 3};
 
             Fragment[] fragments = new Fragment[]{new Fragment1(), new Fragment2(), new Fragment3(),
                     new Fragment4()};
@@ -47,6 +49,7 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
         } else {
             frames = savedInstanceState.getIntArray("FRAMES");
             hidden = savedInstanceState.getBoolean("HIDDEN");
+            sequence = savedInstanceState.getIntArray("SEQUENCE");
         }
     }
 
@@ -56,16 +59,17 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
 
         outState.putIntArray("FRAMES", frames);
         outState.putBoolean("HIDDEN", hidden);
+        outState.putIntArray("SEQUENCE", sequence);
     }
 
     @Override
     public void onButtonClickShuffle() {
         List<Integer> list = new ArrayList<>(Arrays
-                .asList(frames[0], frames[1], frames[2], frames[3]));
+                .asList(sequence[0], sequence[1], sequence[2], sequence[3]));
         Collections.shuffle(list);
 
         for (int i = 0; i < 4; i++)
-            frames[i] = list.get(i);
+            sequence[i] = list.get(i);
 
         newFragments();
     }
@@ -146,6 +150,15 @@ public class MainActivity extends FragmentActivity implements Fragment1.OnButton
     private void newFragments() {
         Fragment[] newFragments = new Fragment[]{new Fragment1(), new Fragment2(), new Fragment3(),
                 new Fragment4()};
+
+        Fragment[] inSequence = new Fragment[]{
+                newFragments[sequence[0]],
+                newFragments[sequence[1]],
+                newFragments[sequence[2]],
+                newFragments[sequence[3]]
+        };
+        newFragments = inSequence;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction().setCustomAnimations(
                 R.anim.slide_in,
