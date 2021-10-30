@@ -68,15 +68,12 @@ public class Fragment4 extends Fragment {
                     try {
                         integer = Integer.parseInt(s.toString());
                     } catch (NumberFormatException e) {
-                        integer = fragsData.counter.getValue();
+                         integer = 0;
                     }
                     fragsData.counter.setValue(integer);
                 }
                 else
                     turnOffWatcher = !turnOffWatcher;
-
-                if (s.length() == 0) 
-                    fragsData.counter.setValue(Integer.valueOf("0"));
             }
         };
 
